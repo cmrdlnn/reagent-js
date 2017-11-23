@@ -14,13 +14,11 @@ const ArrayFieldItem = ({ index, onRemove, items, name, title, value, required }
       alignItems: 'flex-end'
     }}
     >
-    <div>
       <Field
         parentName={name}
         field={items}
         value={value}
       />
-    </div>
     <div
       style={{
         marginLeft: '1rem'
