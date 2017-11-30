@@ -8,7 +8,8 @@ class OneOf extends Component {
     super(props)
     const {value, keyField, items} = props
     this.state = {
-      selectedItem: value[keyField] ? items.findIndex(item => item.properties[keyField].value == value[keyField]) : 0
+      selectedItem: value && value[keyField] ?
+        items.findIndex(item => item.properties[keyField].value == value[keyField]) : 0
     }
   }
   _handleChange(value) {
