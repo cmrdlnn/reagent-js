@@ -31,6 +31,33 @@ class FormJson {
       }
     }, {})
   }
+
+  __getArrayFieldData__ (items, name, elements) {
+    let maxIndex = -1
+    let regexForMatch = new RegExp(`^${name}\\[(\\d+)]`)
+    let children = []
+    let result = []
+
+    elements.forEach(el => {
+      const matching = el.name.match(regexForMatch)
+      if (matching && matching[1] >= maxIndex) {
+        children.push(el)
+        maxIndex = matching[1]
+      }
+    })
+
+    for (let i = 0; i <= maxIndex; i++) {
+      let formattedElements = {}
+      let elems = children.filter(child => {
+        formattedElements[child.name] = child
+        return new RegExp(`^${name}\\[${i}]\\[.+`).test(child.name)
+      })
+      result.push(this.__getFieldData___(items, null, formattedElements, `${name}[${i}]`))
+    }
+
+    return result
+  }
+
   __getFieldData___ (field, fieldName, elements, parentName) {
     //console.log('getFieldData', field, fieldName, parentName)
     let fullName = getFullFieldName ({field, name: fieldName, parentName})
@@ -62,21 +89,7 @@ class FormJson {
         }
       }
       case 'array': {
-        if (field.items.type == 'object') {
-          throw new Error('Не поддерживаются массивы с вложенными объектами')
-        }
-        const els = elements[`${fullName}[]`]
-        let res = []
-        if (!els) {
-          return null
-        } else if (els.length) {
-          for (var el of els) {
-            res.push( this.__getFieldData___(field.items, name, {[`${fullName}[]`]: el}, `${fullName}[]`) )
-          }
-        } else {
-          res.push( this.__getFieldData___(field.items, name, {[`${fullName}[]`]: els}, `${fullName}[]`) )
-        }
-        return res
+        return this.__getArrayFieldData__(field.items, fullName, Array.from(elements))
       }
       case 'boolean': {
         const target = elements.namedItem(`${fullName}`)
@@ -115,7 +128,7 @@ class FormJson {
           }
           if (!multiple)
             return data[0] ? data[0] : ''
-          else 
+          else
             return data
         } else {
           return elements[fullName].value

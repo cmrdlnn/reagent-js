@@ -8,28 +8,22 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import Field from '../Field'
 
 const ArrayFieldItem = ({ index, onRemove, items, name, title, value, required }) => (
-  <div
-    style={{
-      display: 'flex',
-      alignItems: 'flex-end'
-    }}
-    >
+  <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+    <div style={{ display: 'flex', flex: 1 }}>
       <Field
         parentName={name}
         field={items}
         value={value}
       />
-    <div
-      style={{
-        marginLeft: '1rem'
-      }}>
+    </div>
+    <div>
       <FloatingActionButton
         mini={true}
         primary={false}
         secondary={false}
         onClick={onRemove}
         style={{marginRight: '0.25rem'}}
-        >
+      >
         <DeleteIcon/>
       </FloatingActionButton>
     </div>

@@ -53,10 +53,10 @@ class ArrayField extends Component {
               onSave={this._handleAddComponents.bind(this)}
               onRemove={ () => this._handleRemove(index)}
               items={items}
-              name={`${name}[]`}
+              name={`${name}[${index}]`}
               required={required}
               value={val}
-            />            
+            />
           ))
         }
       </div>
