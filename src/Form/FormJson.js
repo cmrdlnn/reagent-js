@@ -34,7 +34,9 @@ class FormJson {
 
   __getArrayFieldData__ (items, name, elements) {
     let maxIndex = -1
-    let regexForMatch = new RegExp(`^${name}\\[(\\d+)]`)
+    let regexForMatch = new RegExp(
+      `^${name.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}\\[(\\d+)]`
+    )
     let children = []
     let result = []
 
@@ -66,13 +68,13 @@ class FormJson {
         const {oneOf, name:fieldName} = field
         let name = fieldName ? fieldName : fullName
         if (oneOf) {
-          const selected = elements.namedItem(`${name}[title]`).value
+          const selected = elements[`${name}[title]`].value
           return this.__getObjectFieldData__ (oneOf[selected], elements, name)
         }
         return this.__getObjectFieldData__ (field, elements, name)
       }
       case 'checkbox': {
-        const targets = elements.namedItem(`${fullName}[]`)
+        const targets = elements[`${fullName}[]`]
 
         if(!targets)
           return []
@@ -92,11 +94,11 @@ class FormJson {
         return this.__getArrayFieldData__(field.items, fullName, Array.from(elements))
       }
       case 'boolean': {
-        const target = elements.namedItem(`${fullName}`)
+        const target = elements[`${fullName}`]
         return target.checked
       }
       case 'file': {
-        const { files } = elements.namedItem(fullName)
+        const { files } = elements[fullName]
         if ( files.length > 0 ) {
           const { name: filename, size, lastModified: last_modified, type: mime_type } = files[0]
           this.__registerPromise__(new Promise((resolve) => {
@@ -136,7 +138,7 @@ class FormJson {
       }
 
       case 'toggle': {
-        return elements.namedItem(fullName).checked
+        return elements[fullName].checked
       }
       case 'address': {
         const addressPartitionals = [
