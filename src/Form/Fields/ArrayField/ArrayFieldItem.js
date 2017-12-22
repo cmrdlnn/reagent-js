@@ -19,7 +19,6 @@ const ArrayFieldItem = ({ index, onRemove, items, name, title, value, required }
     <div>
       <FloatingActionButton
         mini={true}
-        primary={false}
         secondary={false}
         onClick={onRemove}
         style={{marginRight: '0.25rem'}}
