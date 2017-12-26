@@ -32,7 +32,9 @@ class FormJson {
     }, {})
   }
 
-  __getArrayFieldData__ (items, name, elements) {
+  __getArrayFieldData__ (items, name, elems) {
+    const elements = elems.namedItem ? Array.from(elems) : Object.values(elems)
+
     let maxIndex = -1
     let regexForMatch = new RegExp(
       `^${name.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}\\[(\\d+)]`
@@ -91,7 +93,7 @@ class FormJson {
         }
       }
       case 'array': {
-        return this.__getArrayFieldData__(field.items, fullName, Array.from(elements))
+        return this.__getArrayFieldData__(field.items, fullName, elements)
       }
       case 'boolean': {
         const target = elements[`${fullName}`]
