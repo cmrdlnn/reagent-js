@@ -11,6 +11,7 @@ const ObjectField = (props) => {
     const {oneOf, keyField} = props
     body = (
       <OneOf
+        title={title}
         type='object'
         parentName={name}
         value={value}

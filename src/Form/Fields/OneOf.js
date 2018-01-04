@@ -7,21 +7,28 @@ class OneOf extends Component {
   constructor(props) {
     super(props)
     const {value, keyField, items} = props
-    this.state = {
-      selectedItem: value && value[keyField] ?
-        items.findIndex(item => item.properties[keyField].value == value[keyField]) : 0
+    let selectedItem
+    if (value) {
+      if (value[keyField]) {
+        selectedItem = items.findIndex(item => item.properties[keyField].value == value[keyField])
+      } else {
+        const keys = Object.keys(value)
+        selectedItem = items.findIndex(item => keys.every(key => item.properties[key]))
+      }
     }
+    selectedItem = !selectedItem || selectedItem === -1 ? 0 : selectedItem
+    this.state = { selectedItem }
   }
   _handleChange(value) {
     this.setState({selectedItem: value})
   }
   render() {
     //console.debug('OneOf', this.props, this.state)
-    const { items, keyField, parentName, value } = this.props
+    const { items, keyField, parentName, title, value } = this.props
     const titles = items.map ((item, index) => ({title: item.title, id: index}))
     const { selectedItem } = this.state
     const { properties, required } = items[selectedItem]
-    const keyFieldTitle = items[0].properties[keyField].title
+    const keyFieldTitle = keyField && items[0].properties[keyField].title || title
     return (
       <div style={{width: '100%'}}>
         <SelectField
