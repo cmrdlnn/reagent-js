@@ -131,10 +131,9 @@ Notification.contextTypes = {
   })
 };
 
-const moveCaretAtEnd = (e) => {
-  let temp_value = e.target.value
-  e.target.value = ''
-  e.target.value = temp_value
+const moveCaretAtEnd = ({ target }) => {
+  const { length } = target.value
+  target.setSelectionRange(length, length)
 }
 
 const DictionaryItem = ({id, title, description, checked, onCheck}) => (
