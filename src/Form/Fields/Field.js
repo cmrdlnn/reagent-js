@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 
+import CustomField from './CustomField.jsx'
 import TextField from './TextField'
 import RichTextField from './RichTextField'
 import CheckboxField from './CheckboxField'
@@ -153,6 +154,16 @@ const Field = (props) => {
           required={required}
           name={fieldName}
           value={value}
+        />
+      )
+    }
+
+    case 'custom': {
+      return (
+        <CustomField
+          key={fieldName}
+          {...field}
+          name={fieldName}
         />
       )
     }
