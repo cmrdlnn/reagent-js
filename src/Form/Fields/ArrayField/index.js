@@ -1,6 +1,5 @@
 import React, { PropTypes, Component } from 'react'
 
-import Divider from 'material-ui/Divider'
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import AddIcon from 'material-ui/svg-icons/content/add'
 
@@ -28,6 +27,7 @@ class ArrayField extends Component {
   render() {
     const {properties, name, title, direction, items, required} = this.props
     const {value=[]} = this.state
+
     return (
       <div className={`c-dynamic-field${direction == 'horizontal' ? ' c-dynamic-field_horizontal' : ''}`}>
         <div style={{
@@ -36,6 +36,9 @@ class ArrayField extends Component {
           }}>
           <h4 className='c-array-field__title'>
             {title}
+            { !required ? null : (
+              <input className="c-array-field__required-input" required value={value.length || ''} />
+            )}
           </h4>
           <FloatingActionButton
             secondary={true}
@@ -69,7 +72,7 @@ ArrayField.propTypes = {
   name: PropTypes.string,
   direction: PropTypes.string,
   title: PropTypes.string,
-  required: PropTypes.array
+  required: PropTypes.bool,
 }
 
 export default ArrayField
