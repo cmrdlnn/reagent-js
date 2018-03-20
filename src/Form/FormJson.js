@@ -100,8 +100,11 @@ class FormJson {
         return target.checked
       }
       case 'file': {
-        const { files } = elements[fullName]
-        if ( files.length > 0 ) {
+        const el = elements[fullName];
+        if (el.type === 'text') {
+          return JSON.parse(el.value)
+        } else if (el.files.length) {
+          const { files } = elements[fullName];
           const { name: filename, size, lastModified: last_modified, type: mime_type } = files[0]
           this.__registerPromise__(new Promise((resolve) => {
             const fr = new FileReader()

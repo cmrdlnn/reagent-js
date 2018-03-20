@@ -14,7 +14,8 @@ export default class FileField extends Component{
     this.state={
       hasValue: fieldValue.length > 0,
       focused: false,
-      filename: fieldValue.length > 0 ? fieldValue[0].filename : ''
+      filename: fieldValue.length > 0 ? fieldValue[0].filename : '',
+      passedValue: fieldValue.length && fieldValue,
     }
   }
 
@@ -46,7 +47,7 @@ export default class FileField extends Component{
   }
 
   _handleReset (){
-    this.setState({ hasValue: false, filename: null})
+    this.setState({ hasValue: false, filename: null, passedValue: null })
     this.refs.input.value=''
   }
 
@@ -58,7 +59,16 @@ export default class FileField extends Component{
     const { required, name, title } = this.props
     const { muiTheme } = this.context
     const { primary1Color, secondaryTextColor } = muiTheme.palette
-    const { hasValue, filename, focused } = this.state
+    const { hasValue, filename, focused, passedValue } = this.state
+    const fileInputProps = passedValue
+      ? {
+        type: 'text',
+        value: JSON.stringify(passedValue),
+      }
+      : {
+        required: !!required,
+        type: 'file',
+      }
 
     return (
       <div
@@ -99,11 +109,10 @@ export default class FileField extends Component{
         <input
           id={ name }
           name={ name }
-          type='file'
           ref='input'
-          required={ !!required }
           className='file-upload-widget__input'
           onChange={ this._handleChange.bind(this) }
+          {...fileInputProps}
         />
       </div>
     )
