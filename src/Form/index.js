@@ -35,16 +35,22 @@ class Form extends Component {
   componentDidMount() {
     this.submit = () => this.refs.submitButton.click()
   }
-  _handleSubmit(e){
-    const {onSubmit, schema, type='application/json'} = this.props
+
+  _handleSubmit(e) {
     e.preventDefault();
-    const form = e.target
-    if (type=='multipart/form-data') {
+    this.value(this.props.onSubmit)
+  }
+
+  value = (callback) => {
+    const { form } = this.refs;
+    const { onSubmit, schema, type = 'application/json' } = this.props;
+
+    if (type == 'multipart/form-data') {
       let formData = new FormData(form)
-      onSubmit(formData, type)
+      callback(formData, type)
     } else {
       const formJson = new FormJson()
-      formJson.getFormJson(schema, form, onSubmit)
+      formJson.getFormJson(schema, form, callback)
     }
   }
 
