@@ -35,7 +35,7 @@ class ArrayField extends Component {
             alignItems: 'flex-end'
           }}>
           <h4 className='c-array-field__title'>
-            {title}
+            { required && title ? `${title} *` : title }
             { !required ? null : (
               <input className="c-array-field__required-input" required value={value.length || ''} />
             )}
