@@ -34,25 +34,27 @@ class FormJson {
 
   __getArrayFieldData__ (items, name, elems) {
     const elements = elems.namedItem ? Array.from(elems) : Object.values(elems)
-
-    let maxIndex = -1
-    let regexForMatch = new RegExp(
+    const regexForMatch = new RegExp(
       `^${name.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}\\[(\\d+)]`
     )
-    let children = []
-    let result = []
+    const children = []
+    const result = []
 
-    elements.forEach(el => {
+    let maxIndex = -1
+
+    elements.forEach((el) => {
       const matching = el.name.match(regexForMatch)
-      if (matching && matching[1] >= maxIndex) {
-        children.push(el)
-        maxIndex = matching[1]
+      if (matching) {
+        children.push(el);
+        if (+matching[1] >= maxIndex) {
+          maxIndex = matching[1];
+        }
       }
     })
 
-    for (let i = 0; i <= maxIndex; i++) {
-      let formattedElements = {}
-      let elems = children.filter(child => {
+    for (let i = 0; i <= maxIndex; i += 1) {
+      const formattedElements = {}
+      const elems = children.filter((child) => {
         formattedElements[child.name] = child
         return new RegExp(`^${name}\\[${i}]\\[.+`).test(child.name)
       })
