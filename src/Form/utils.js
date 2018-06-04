@@ -1,6 +1,8 @@
 export const getFullFieldName = ({field, parentName, name}) => {
   //console.log('getFullFieldName', field, parentName, name);
-  if (field.name){
+  if (parentName && field.name) {
+    return `${parentName}[${field.name}]`;
+  } else if (field.name) {
     return field.name
   } else if (!name) {
     return parentName

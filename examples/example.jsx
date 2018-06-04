@@ -56,6 +56,7 @@ class App extends Component {
               type: 'array',
               title: 'array',
               items: {
+                title: 'Элемент массива',
                 type: 'object',
                 properties: {
                   someData: {

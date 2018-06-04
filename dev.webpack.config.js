@@ -13,7 +13,7 @@ module.exports = () => ({
   output: {
     filename: '[name].bundle.js',
     path: path.resolve( __dirname,'./examples'),
-    publicPath: '/'    
+    publicPath: '/'
   },
   devServer: {
     hot: true,
@@ -41,5 +41,8 @@ module.exports = () => ({
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin()
-  ]
+  ],
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
 })

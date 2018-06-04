@@ -32,36 +32,33 @@ class FormJson {
     }, {})
   }
 
-  __getArrayFieldData__ (items, name, elems) {
-    const elements = elems.namedItem ? Array.from(elems) : Object.values(elems)
+  getArrayFieldData(items, name, elems) {
+    const elements = elems.namedItem ? Array.from(elems) : Object.values(elems);
     const regexForMatch = new RegExp(
-      `^${name.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}\\[(\\d+)]`
-    )
-    const children = []
-    const result = []
+      `^${name.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}\\[(\\d+)]`,
+    );
+    const children = [];
+    const result = [];
 
-    let maxIndex = -1
+    let maxIndex = -1;
 
     elements.forEach((el) => {
-      const matching = el.name.match(regexForMatch)
+      const matching = el.name.match(regexForMatch);
       if (matching) {
         children.push(el);
         if (+matching[1] >= maxIndex) {
-          maxIndex = matching[1];
+          [, maxIndex] = matching;
         }
       }
-    })
+    });
 
     for (let i = 0; i <= maxIndex; i += 1) {
-      const formattedElements = {}
-      const elems = children.filter((child) => {
-        formattedElements[child.name] = child
-        return new RegExp(`^${name}\\[${i}]\\[.+`).test(child.name)
-      })
-      result.push(this.__getFieldData___(items, null, formattedElements, `${name}[${i}]`))
+      const formattedElements = {};
+      children.forEach((child) => { formattedElements[child.name] = child; });
+      result.push(this.__getFieldData___(items, null, formattedElements, `${name}[${i}]`));
     }
 
-    return result
+    return result;
   }
 
   __getFieldData___ (field, fieldName, elements, parentName) {
@@ -95,7 +92,8 @@ class FormJson {
         }
       }
       case 'array': {
-        return this.__getArrayFieldData__(field.items, fullName, elements)
+        const arrayValue = this.getArrayFieldData(field.items, fullName, elements);
+        return field.name ? { [field.name]: arrayValue } : arrayValue;
       }
       case 'boolean': {
         const target = elements[`${fullName}`]

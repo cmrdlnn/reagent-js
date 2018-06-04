@@ -21,6 +21,7 @@ const Field = (props) => {
   const {type} = field
   //const fieldValue = name ? value[name] : value
   const fieldName = getFullFieldName(props)
+
   switch (type) {
     case 'html': {
       return (
@@ -37,10 +38,10 @@ const Field = (props) => {
       return (
         <ArrayField
           key={fieldName}
-          name={fieldName}
-          required={required}
           value={value}
           {...field}
+          name={fieldName}
+          required={required}
         />
       )
     }
