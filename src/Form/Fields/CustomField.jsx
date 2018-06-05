@@ -14,7 +14,7 @@ class CustomField extends Component {
           React.createElement(component, {
             ...this.props,
             setValue: this.setValue,
-            removeValue: this.removeValue
+            removeValue: this.removeValue,
           })
         }
         <input ref={(ref) => { this.result = ref; }} type="hidden" name={name} />

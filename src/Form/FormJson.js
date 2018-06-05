@@ -101,8 +101,8 @@ class FormJson {
       }
       case 'file': {
         const el = elements[fullName];
-        if (el.type === 'text') {
-          return JSON.parse(el.value)
+        if (el.type === 'hidden') {
+          return JSON.parse(el.value);
         } else if (el.files.length) {
           const { files } = elements[fullName];
           const { name: filename, size, lastModified: last_modified, type: mime_type } = files[0]
