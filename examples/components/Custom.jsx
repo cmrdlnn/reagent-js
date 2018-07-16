@@ -68,6 +68,7 @@ class Custom extends Component {
   ];
 
   render() {
+    const { required } = this.props;
     const { suggestions } = this.state;
 
     return (
@@ -81,7 +82,7 @@ class Custom extends Component {
         ref={(ref) => {
           this.search = ref;
         }}
-        required
+        required={required}
       />
     );
   }
@@ -89,7 +90,12 @@ class Custom extends Component {
 
 Custom.propTypes = {
   removeValue: PropTypes.func.isRequired,
+  required: PropTypes.bool,
   setValue: PropTypes.func.isRequired,
+};
+
+Custom.defaultProps = {
+  required: false,
 };
 
 export default Custom;

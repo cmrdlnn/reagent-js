@@ -1,7 +1,8 @@
 import React, { PropTypes, Component } from 'react'
 import TextFieldLabel from 'material-ui/TextField/TextFieldLabel'
 import TextFieldUnderline from 'material-ui/TextField/TextFieldUnderline'
-import MaskedInput from 'react-maskedinput'
+import ReactTextMask from 'react-text-mask';
+import ReactMaskedinput from 'react-maskedinput';
 import { findDOMNode } from 'react-dom'
 
 class MaskedTextField extends Component {
@@ -14,7 +15,7 @@ class MaskedTextField extends Component {
       hasValue: !!(defaultValue || value)
     }
   }
-  handleFocus() {
+  handleFocus = () => {
     this.setState({focused: true})
   }
   componentWillReceiveProps(nextProps) {
@@ -32,7 +33,7 @@ class MaskedTextField extends Component {
       validationMessage == '' && onChange && onChange(value)
     })
   }
-  handleChange(event) {
+  handleChange = (event) => {
     const {value} = event.target
     const { onChange } = this.props
     this.setState({hasValue: value && value != ''}, () => {
@@ -40,10 +41,11 @@ class MaskedTextField extends Component {
     })
   }
   render () {
-    const {name, mask, title, value, defaultValue, pattern, required} = this.props
+    const { defaultValue, mask, name, pattern, placeholder, required, title, value } = this.props;
     const {focused, hasValue, errorText} = this.state
     const {muiTheme} = this.context
     const { hintColor, focusColor, errorColor } = muiTheme.textField
+    const MaskedInput = typeof mask === 'string' ? ReactMaskedinput : ReactTextMask;
     return (
       <div className='c-text-field'>
         <TextFieldLabel
@@ -60,16 +62,16 @@ class MaskedTextField extends Component {
         <MaskedInput
           ref='input'
           className='c-text-field__input'
-          onFocus={this.handleFocus.bind(this)}
-          onBlur={this.handleBlur.bind(this)}
-          onChange={this.handleChange.bind(this)}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          onChange={this.handleChange}
           id={name}
           required={required}
           mask={mask}
           name={name}
           pattern={pattern}
           value={value || defaultValue}
-          placeholder={focused ? '' : ' '}
+          placeholder={focused ? placeholder : ' '}
           autoComplete='off'
         />
         <TextFieldUnderline
@@ -100,7 +102,28 @@ const ErrorText = ({errorText, muiTheme}) => errorText ? (
   </div>
 ) : null
 
+MaskedTextField.propTypes = {
+  mask: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.func,
+    PropTypes.string,
+  ]).isRequired,
+  name: PropTypes.string.isRequired,
+  pattern: PropTypes.string,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool,
+  title: PropTypes.string,
+};
+
+MaskedTextField.defaultProps = {
+  pattern: null,
+  placeholder: '',
+  required: false,
+  title: null,
+};
+
 MaskedTextField.contextTypes = {
   muiTheme: PropTypes.object
 }
+
 export default MaskedTextField;

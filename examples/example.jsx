@@ -47,13 +47,15 @@ class App extends Component {
               type: 'date',
               title: 'date',
             },
-            string: {
-              type: 'string',
-              title: 'string',
+            ReactTextMask: {
+              mask: ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
+              title: 'Phone number',
+              type: 'String with `react-text-mask`',
             },
-            string1: {
-              type: 'string',
-              title: 'string',
+            ReactMaskedinput: {
+              mask: 'AAA 1111',
+              title: 'License Plate',
+              type: 'String with `react-maskedinput`',
             },
             string2: {
               type: 'string',

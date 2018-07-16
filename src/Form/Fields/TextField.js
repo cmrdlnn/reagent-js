@@ -25,7 +25,11 @@ TextField.propTypes = {
   defaultValue: PropTypes.string,
   value: PropTypes.string,
   required: PropTypes.bool,
-  mask: PropTypes.string
+  mask: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.func,
+    PropTypes.string,
+  ]),
 }
 
 export default TextField
