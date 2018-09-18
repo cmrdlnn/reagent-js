@@ -9,7 +9,8 @@
     "postversion": "npm publish",
     "build:dev": "webpack --env=dev --progress --profile --colors",
     "build:dist": "webpack --env=prod --progress --profile --colors",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "prepare": "npm run build:dist"
   },
   "keywords": [
     "react",
