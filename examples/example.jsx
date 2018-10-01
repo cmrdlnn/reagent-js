@@ -91,9 +91,14 @@ class App extends Component {
               component: Custom,
             },
           },
+          required: ['ReactMaskedinput', 'ReactTextMask'],
         }}
         onSubmit={data => console.log('res:', data)}
-        value={{ file: fileValue }}
+        value={{
+          file: fileValue,
+          ReactMaskedinput: 'DFA 1523',
+          ReactTextMask: '(123) 131-3131',
+        }}
       />
     );
   }
