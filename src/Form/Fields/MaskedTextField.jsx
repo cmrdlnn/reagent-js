@@ -35,8 +35,9 @@ class MaskedTextField extends Component {
   handleBlur = (e) => {
     const { validationMessage, value } = e.target;
     const { errorText, onChange } = this.props;
+
     this.setState({ focused: false, errorText: errorText || validationMessage }, () => {
-      validationMessage == '' && onChange && onChange(value);
+      validationMessage == '' && onChange && onChange(e, value);
     });
   }
 
@@ -132,6 +133,7 @@ MaskedTextField.propTypes = {
     PropTypes.string,
   ]).isRequired,
   name: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
   pattern: PropTypes.string,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
@@ -142,6 +144,7 @@ MaskedTextField.propTypes = {
 MaskedTextField.defaultProps = {
   defaultValue: null,
   errorText: null,
+  onChange: null,
   pattern: null,
   placeholder: '',
   required: false,
