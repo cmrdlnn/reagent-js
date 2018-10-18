@@ -1,23 +1,34 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class CustomField extends Component {
-  setValue = (value) => { this.result.value = value; }
+  state = {
+    value: '',
+  }
 
-  removeValue = () => { this.result.value = ''; }
+  setValue = (value) => {
+    this.setState({ value });
+  }
+
+  removeValue = () => {
+    this.setState({ value: '' });
+  }
 
   render() {
-    const { component, name } = this.props;
+    const { component, name, ...props } = this.props;
+    const { value } = this.state;
 
     return (
       <div className="c-field">
         {
           React.createElement(component, {
-            ...this.props,
-            setValue: this.setValue,
+            ...props,
+            customValue: value,
             removeValue: this.removeValue,
+            setValue: this.setValue,
           })
         }
-        <input ref={(ref) => { this.result = ref; }} type="hidden" name={name} />
+        <input name={name} type="hidden" value={value} />
       </div>
     );
   }

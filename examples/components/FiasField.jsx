@@ -3,13 +3,13 @@ import AutoComplete from 'material-ui/AutoComplete';
 import CircularProgress from 'material-ui/CircularProgress';
 import MenuItem from 'material-ui/MenuItem';
 
-class Custom extends Component {
+class FiasField extends Component {
   constructor(props) {
     super(props);
     this.state = { suggestions: [] };
   }
 
-  changeValudation = (message) => {
+  changeValidation = (message) => {
     this.search.refs.searchTextField.input.setCustomValidity(message || '');
   };
 
@@ -27,8 +27,8 @@ class Custom extends Component {
       },
     )
       .then(response => response.json())
-      .then((json) => {
-        this.setState({ suggestions: json.suggestions });
+      .then(({ suggestions }) => {
+        this.setState({ suggestions });
       });
   };
 
@@ -36,7 +36,7 @@ class Custom extends Component {
     if (source === 'touchTap') return;
 
     this.props.removeValue();
-    this.changeValudation('Адрес представлен в неверном формате');
+    this.changeValidation('Адрес представлен в неверном формате');
 
     clearTimeout(this.fetcher);
 
@@ -51,7 +51,7 @@ class Custom extends Component {
 
   handleSelect = (value, index) => {
     this.props.setValue(JSON.stringify(this.state.suggestions[index]));
-    this.changeValudation();
+    this.changeValidation();
   };
 
   loader = () => [
@@ -88,14 +88,14 @@ class Custom extends Component {
   }
 }
 
-Custom.propTypes = {
+FiasField.propTypes = {
   removeValue: PropTypes.func.isRequired,
   required: PropTypes.bool,
   setValue: PropTypes.func.isRequired,
 };
 
-Custom.defaultProps = {
+FiasField.defaultProps = {
   required: false,
 };
 
-export default Custom;
+export default FiasField;

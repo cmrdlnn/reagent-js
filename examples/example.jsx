@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { Form } from '../src';
 
 import fileValue from './data/file_value';
-import Custom from './components/Custom';
+import FiasField from './components/FiasField';
+import DateTimeField from './components/DateTimeField';
 
 function getBigDict() {
   const dict = [];
@@ -85,10 +86,15 @@ class App extends Component {
               title: 'Поле типа "Файл"',
               type: 'file',
             },
-            custom: {
+            fias: {
+              component: FiasField,
+              title: 'Кастомизированный компонент для заполнения адреса',
               type: 'custom',
-              title: 'Кастомизированный компонент',
-              component: Custom,
+            },
+            dateTime: {
+              component: DateTimeField,
+              title: 'Кастомизированный компонент для даты и времени',
+              type: 'custom',
             },
           },
           required: ['ReactMaskedinput', 'ReactTextMask'],
@@ -98,6 +104,7 @@ class App extends Component {
           file: fileValue,
           ReactMaskedinput: 'DFA 1523',
           ReactTextMask: '(123) 131-3131',
+          dateTime: '2018-10-04T11:06:00',
         }}
       />
     );

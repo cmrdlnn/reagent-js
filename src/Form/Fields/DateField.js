@@ -82,7 +82,8 @@ class DateField extends Component {
         <DatePickerDialog
           container="inline"
           mode="landscape"
-          locale="en-US"
+          DateTimeFormat={Intl.DateTimeFormat}
+          locale="ru-RU"
           cancelLabel="Закрыть"
           firstDayOfWeek={1}
           ref="dialog"

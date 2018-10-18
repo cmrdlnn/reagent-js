@@ -1,5 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 
+import areIntlLocalesSupported from 'intl-locales-supported';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import SaveIcon from 'material-ui/svg-icons/content/save';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
@@ -17,11 +19,18 @@ import RadioField2 from './Fields/RadioField'
 import ToggleField2 from './Fields/ToggleField'
 import DateField2 from './Fields/DateField'
 
-class Form extends Component {
-  constructor(props){
-    super(props)
-  }
+if (global.Intl) {
+  if (!areIntlLocalesSupported('ru-RU')) {
+    const IntlPolyfill = require('intl');
 
+    Intl.NumberFormat = IntlPolyfill.NumberFormat;
+    Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
+  }
+} else {
+  global.Intl = require('intl');
+}
+
+class Form extends Component {
   getChildContext() {
     return {
       onChange: this.props.onChange

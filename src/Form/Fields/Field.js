@@ -162,8 +162,9 @@ const Field = (props) => {
     case 'custom': {
       return (
         <CustomField
-          key={fieldName}
+          {...props}
           {...field}
+          key={fieldName}
           name={fieldName}
         />
       )

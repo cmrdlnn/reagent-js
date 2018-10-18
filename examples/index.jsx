@@ -22,7 +22,6 @@ const hotRender = (Component) => {
 hotRender(App)
 
 if (module.hot) {
-  console.log('hot', App);
   module.hot.accept('./index.jsx', () => {
     hotRender (App)
   })
