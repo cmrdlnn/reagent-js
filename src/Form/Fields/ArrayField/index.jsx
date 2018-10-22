@@ -54,7 +54,15 @@ class ArrayField extends Component {
   }
 
   handleAddComponents() {
-    this.setState({ value: this.state.value.concat([null]) });
+    const { max } = this.props;
+
+    if (max) {
+      if (this.state.value.length < max) {
+        this.setState({ value: this.state.value.concat([null]) });
+      }
+    } else {
+      this.setState({ value: this.state.value.concat([null]) });
+    }
   }
 
   render() {
